@@ -1,0 +1,21 @@
+post_install() {
+	# Add font licenses
+	install -D -m644 "/opt/hnc/hoffice11/Shared/Fonts/UnlicenseFontList.ini" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+
+	xdg-icon-resource forceupdate --theme hicolor &> /dev/null
+
+	# ln -sf /usr/lib/x86_64-linux-gnu/qt5/plugins/platforminputcontexts/libqt5im-nimf.so /opt/hnc/hoffice11/Bin/qt/plugins/platforminputcontexts/libqt5im-nimf.so
+	update-desktop-database -q
+	
+	# Fix Korean IME issue (nimf)
+	rm -rf /opt/hnc/hoffice11/Bin/qt/
+}
+
+post_upgrade() {
+	post_install
+}
+
+post_remove() {
+	xdg-icon-resource forceupdate --theme hicolor &> /dev/null
+	update-desktop-database -q
+}
